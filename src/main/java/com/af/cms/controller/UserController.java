@@ -15,6 +15,7 @@ public class UserController {
     @Autowired
     UserService userService;
 
+
     //endpoint for register user
     @PostMapping("/")
     public User createUser(@RequestBody User user) {
@@ -44,6 +45,11 @@ public class UserController {
     @DeleteMapping("/{id}")
     public boolean deleteUser(@PathVariable String id) {
         return userService.deleteUser(id);
+    }
+
+    @PostMapping("/list")
+    public List<User>userWithStatus(@RequestParam String status){
+        return userService.userWithStatus(status);
     }
 
 

@@ -2,6 +2,9 @@ package com.af.cms.model;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+
+import java.util.List;
 
 
 @Data
@@ -14,6 +17,5 @@ public class User {
     private String userRole;
     private String password;
     private String country;
-
-
 }
+
