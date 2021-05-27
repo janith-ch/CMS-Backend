@@ -48,7 +48,7 @@ public class UserController {
     }
 
     @PostMapping("/list")
-    public List<User>userWithStatus(@RequestParam String status){
+    public List<User>userWithStatus(@RequestParam String status[]){
         return userService.userWithStatus(status);
     }
 

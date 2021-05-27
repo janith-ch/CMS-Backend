@@ -10,8 +10,8 @@ import java.util.List;
 
 @Repository
 public interface UserRepository extends MongoRepository<User, String> {
-    @Query("{'userRole':{$eq:?0}}")
-    List<User> findByUserRole(String userRole);
+    @Query("{'userRole':{$in:?0}}")
+    List<User> findByUserRole(String status[]);
 
     //userRepository extend by mongoRepository
 }

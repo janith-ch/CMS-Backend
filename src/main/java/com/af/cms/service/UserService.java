@@ -1,11 +1,8 @@
 package com.af.cms.service;
 
-import com.af.cms.model.Status;
 import com.af.cms.model.User;
 import com.af.cms.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.List;
@@ -82,12 +79,9 @@ public class UserService implements UserServiceInt {
         }
     }
     @Override
-    public List<User> userWithStatus(String status) {
-        if (status.equals("admin")) {
-           return( userRepository.findByUserRole("admin"));
-        }
+    public List<User> userWithStatus(String status[]) {
+           return( userRepository.findByUserRole(status));
 
-return null;
     }
 
 }
