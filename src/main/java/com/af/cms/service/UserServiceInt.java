@@ -18,6 +18,6 @@ public interface UserServiceInt {
 
     public boolean deleteUser(String id);
 
-    public List<User> userWithStatus(String status);
+    public List<User> userWithStatus(String status[]);
 
 }
