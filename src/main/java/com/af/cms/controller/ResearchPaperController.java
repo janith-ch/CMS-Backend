@@ -31,7 +31,7 @@ public class ResearchPaperController {
 			 ,@RequestParam("contactNumber") String contactNumber,@RequestParam("affiliation") String affiliation,@RequestParam("title") String title,@RequestParam("description") String description,@RequestParam("isApproved") boolean isApproved) throws IOException {
 		
       
-    		ResearchPaper respone = researchPaperService.saveWorkshop(file,userId,email,contactNumber,affiliation ,title,description,isApproved);
+    		ResearchPaper respone = researchPaperService.saveResearchPaper(file,userId,email,contactNumber,affiliation ,title,description,isApproved);
       
     		if(respone.equals(null)) {
     			return ResponseEntity.ok(new CommonResponse<ResearchPaper>(false,null,respone));
