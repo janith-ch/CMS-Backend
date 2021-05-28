@@ -31,7 +31,7 @@ public class ResearchPaperService {
 	@Autowired
 	private MongoTemplate mongoTemplate;
 
-	public ResearchPaper saveWorkshop(MultipartFile file,String userId, String email, String contactNumber,String affiliation , String title, String description, boolean isApproved) throws IOException {
+	public ResearchPaper saveResearchPaper(MultipartFile file,String userId, String email, String contactNumber,String affiliation , String title, String description, boolean isApproved) throws IOException {
 
 		try {
 			ResearchPaper paper = new ResearchPaper();
