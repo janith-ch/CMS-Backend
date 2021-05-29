@@ -20,4 +20,8 @@ public interface UserServiceInt {
 
     public List<User> userWithStatus(String status[]);
 
+    public boolean editRequestUserRole(User user, String id);
+
+    public boolean editUserRole(User user, String id);
+
 }
