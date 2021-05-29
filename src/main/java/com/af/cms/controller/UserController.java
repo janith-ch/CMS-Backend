@@ -47,11 +47,11 @@ public class UserController {
         return userService.deleteUser(id);
     }
 
+    //get user list according to status
     @PostMapping("/list")
     public List<User>userWithStatus(@RequestParam String status[]){
         return userService.userWithStatus(status);
     }
-
     //update userRole
     @PutMapping("/request-user-role/{id}")
     public boolean editRequestUserRole(@PathVariable String id, @RequestBody User user) {
