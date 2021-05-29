@@ -1,10 +1,8 @@
 package com.af.cms.model;
 
+
 import lombok.Data;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-
-import java.util.List;
 
 
 @Data
