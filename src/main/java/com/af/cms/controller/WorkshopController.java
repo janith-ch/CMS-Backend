@@ -64,7 +64,7 @@ public class WorkshopController {
 		
 	}
 	
-	@PutMapping("/approved/{id}")
+	@PutMapping("workshop/approve/{id}")
 	public ResponseEntity<?> updateIsApprovedStatus(@PathVariable int id){
 		
 		int result = WorkshopService.updateApprovedStatus(id);
@@ -80,7 +80,7 @@ public class WorkshopController {
 			
 	}
 	
-	@GetMapping("/pdf/{id}")
+	@GetMapping("workshop/pdf/{id}")
 	public ResponseEntity<?> getPdfFilebyId(@PathVariable int id, Model model){
 		
 		
