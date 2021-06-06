@@ -13,7 +13,7 @@ public class User {
     private String lastName;
     private String email;
     private String userRole;
-    private String requestUserRole;
+    private String requestedUserRole;
     private String password;
     private String country;
 }
