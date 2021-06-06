@@ -4,7 +4,6 @@ import com.af.cms.model.User;
 import com.af.cms.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,7 +58,7 @@ public class UserService implements UserServiceInt {
                 u1.setLastName(user.getLastName());
                 u1.setEmail(user.getEmail());
                 u1.setUserRole(user.getUserRole());
-                u1.setRequestUserRole(user.getRequestUserRole());
+                u1.setRequestedUserRole(user.getRequestedUserRole());
                 u1.setPassword(user.getPassword());
                 u1.setCountry(user.getCountry());
 
@@ -100,7 +99,7 @@ public class UserService implements UserServiceInt {
                 return false;
             } else {
                 User u1 = user2.get();
-                u1.setRequestUserRole(user.getRequestUserRole());
+                u1.setRequestedUserRole(user.getRequestedUserRole());
                 userRepository.save(u1);
                 return true;
             }
@@ -125,6 +124,5 @@ public class UserService implements UserServiceInt {
             throw new RuntimeException("error getting update userRole " + e);
         }
     }
-
 
 }
