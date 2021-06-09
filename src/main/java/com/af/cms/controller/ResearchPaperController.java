@@ -1,7 +1,7 @@
 package com.af.cms.controller;
 
+
 import java.io.IOException;
-import java.util.Base64;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,8 +30,7 @@ public class ResearchPaperController {
 	 public ResponseEntity<?> requestResearchPaper(@RequestPart("file") MultipartFile file,@RequestParam("email") String email,@RequestParam("userId") String userId
 			 ,@RequestParam("contactNumber") String contactNumber,@RequestParam("affiliation") String affiliation,@RequestParam("title") String title,@RequestParam("description") String description,@RequestParam("isApproved") boolean isApproved) throws IOException {
 		
-      
-    		ResearchPaper respone = researchPaperService.saveWorkshop(file,userId,email,contactNumber,affiliation ,title,description,isApproved);
+    		ResearchPaper respone = researchPaperService.saveResearchPaper(file,userId,email,contactNumber,affiliation ,title,description,isApproved);
       
     		if(respone.equals(null)) {
     			return ResponseEntity.ok(new CommonResponse<ResearchPaper>(false,null,respone));
@@ -43,7 +42,8 @@ public class ResearchPaperController {
 	
 	
 	@GetMapping("/researchPapers")
-	public ResponseEntity<?> getAllWorkshop() {
+	public ResponseEntity<?> getAllResearchPaper() {
+
 		
 	return ResponseEntity.ok(new CommonResponse<List<ResearchPaper>>(true,null,researchPaperService.getAllWorkshop()));
 	
@@ -83,12 +83,11 @@ public class ResearchPaperController {
 		
 		
 		ResearchPaper researchPaper = researchPaperService.getPdfByid(id);
-		model.addAttribute("file", Base64.getEncoder().encodeToString(researchPaper.getFile().getData()));
-//		System.out.println("printbefore" + workshop.getFile());
-//		byte[] decodedBytes = java.util.Base64.getEncoder().encode(workshop.getFile().getData());
-//		System.out.println("print" + decodedBytes);
-		return ResponseEntity.ok(new CommonResponse<String>(true,null,"Preview PDF..."));
+
 		
+		String researchPdfUrl = researchPaper.getFileurl();
+		
+		return ResponseEntity.ok(new CommonResponse<String>(true,null,researchPdfUrl));
 		
 		
 	}

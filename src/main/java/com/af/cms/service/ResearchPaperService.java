@@ -1,10 +1,10 @@
 package com.af.cms.service;
 
 import java.io.IOException;
-import java.util.List;
 
-import org.bson.BsonBinarySubType;
-import org.bson.types.Binary;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +12,15 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
+
+import org.springframework.util.ClassUtils;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import com.af.cms.model.ResearchPaper;
 import com.af.cms.repository.ResearchPaperRepository;
+
+import com.af.cms.util.FileUtil;
 
 @Service
 public class ResearchPaperService {
@@ -31,19 +36,32 @@ public class ResearchPaperService {
 	@Autowired
 	private MongoTemplate mongoTemplate;
 
-	public ResearchPaper saveWorkshop(MultipartFile file,String userId, String email, String contactNumber,String affiliation , String title, String description, boolean isApproved) throws IOException {
+	public ResearchPaper saveResearchPaper(MultipartFile file,String userId, String email, String contactNumber,String affiliation , String title, String description, boolean isApproved) throws IOException {
+
 
 		try {
+//			String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()); 
+			
 			ResearchPaper paper = new ResearchPaper();
-
+			
 			paper.setId(service.getSequenceNumber(ResearchPaper.SEQUENCE_NAME));
-			paper.setFile( new Binary(BsonBinarySubType.BINARY, file.getBytes()));
+			
+		   String fileName = paper.getId()+"$"+file.getOriginalFilename();
+		   
+           String path = ClassUtils.getDefaultClassLoader().getResource("").getPath()+"static/";
+           
+           FileUtil.fileupload(file.getBytes(), path, fileName);
+           paper.setId(service.getSequenceNumber(ResearchPaper.SEQUENCE_NAME));
+
 			paper.setEmail(email);
 			paper.setAffiliation(affiliation);
 			paper.setContactNumber(contactNumber);
 			paper.setTitle(title);
 			paper.setDescription(description);
 			paper.setIsApproved(isApproved);
+
+			paper.setFileurl("http://localhost:9090/"+fileName);
+			paper.setUserId(userId);
 
 			return researchPaperRepository.insert(paper);
 
