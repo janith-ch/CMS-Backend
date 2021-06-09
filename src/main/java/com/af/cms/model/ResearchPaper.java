@@ -11,6 +11,7 @@ public class ResearchPaper {
 	
 	
 	 @Transient
+
 	 public static final String SEQUENCE_NAME = "research_paper_sequence";
 	
 	 
@@ -41,7 +42,6 @@ public class ResearchPaper {
 		}
 
 
-
 		public ResearchPaper(int id, String email, String userId, String contactNumber, String affiliation,
 				String title, String description, Boolean isApproved, String fileurl) {
 			super();
@@ -54,6 +54,8 @@ public class ResearchPaper {
 			this.description = description;
 			this.isApproved = isApproved;
 			this.fileurl = fileurl;
+			
+			
 		}
 
 
@@ -74,6 +76,16 @@ public class ResearchPaper {
 
 		public void setEmail(String email) {
 			this.email = email;
+		}
+
+
+		public String getUserId() {
+			return userId;
+		}
+
+
+		public void setUserId(String userId) {
+			this.userId = userId;
 		}
 
 
@@ -136,29 +148,15 @@ public class ResearchPaper {
 			this.fileurl = fileurl;
 		}
 
-		
-		
-
-		public String getUserId() {
-			return userId;
-		}
-
-
-
-		public void setUserId(String userId) {
-			this.userId = userId;
-		}
-
-
 
 		@Override
 		public String toString() {
-			return "ResearchPaper [id=" + id + ", email=" + email + ", contactNumber=" + contactNumber
-					+ ", affiliation=" + affiliation + ", title=" + title + ", description=" + description
-					+ ", isApproved=" + isApproved + ", fileurl=" + fileurl + "]";
+			return "ResearchPaper [id=" + id + ", email=" + email + ", userId=" + userId + ", contactNumber="
+					+ contactNumber + ", affiliation=" + affiliation + ", title=" + title + ", description="
+					+ description + ", isApproved=" + isApproved + ", fileurl=" + fileurl + "]";
 		}
 		
 		
-		
-		
+
 }
+

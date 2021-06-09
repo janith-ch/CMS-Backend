@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.af.cms.model.Keynotes;
-import com.af.cms.model.ResearchPaper;
 import com.af.cms.respone.CommonResponse;
 import com.af.cms.service.KeynotesService;
 

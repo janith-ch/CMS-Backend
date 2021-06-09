@@ -1,6 +1,7 @@
 package com.af.cms.service;
 
 import java.io.IOException;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -11,11 +12,14 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
+
 import org.springframework.util.ClassUtils;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import com.af.cms.model.ResearchPaper;
 import com.af.cms.repository.ResearchPaperRepository;
+
 import com.af.cms.util.FileUtil;
 
 @Service
@@ -34,7 +38,7 @@ public class ResearchPaperService {
 
 	public ResearchPaper saveResearchPaper(MultipartFile file,String userId, String email, String contactNumber,String affiliation , String title, String description, boolean isApproved) throws IOException {
 
-		
+
 		try {
 //			String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()); 
 			
@@ -47,16 +51,18 @@ public class ResearchPaperService {
            String path = ClassUtils.getDefaultClassLoader().getResource("").getPath()+"static/";
            
            FileUtil.fileupload(file.getBytes(), path, fileName);
-		
-			
+           paper.setId(service.getSequenceNumber(ResearchPaper.SEQUENCE_NAME));
+
 			paper.setEmail(email);
 			paper.setAffiliation(affiliation);
 			paper.setContactNumber(contactNumber);
 			paper.setTitle(title);
 			paper.setDescription(description);
 			paper.setIsApproved(isApproved);
+
 			paper.setFileurl("http://localhost:9090/"+fileName);
 			paper.setUserId(userId);
+
 			return researchPaperRepository.insert(paper);
 
 		}catch (Exception e) {
