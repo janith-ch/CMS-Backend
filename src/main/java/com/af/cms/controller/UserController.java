@@ -49,14 +49,16 @@ public class UserController {
 
     //get user list according to status
     @PostMapping("/list")
-    public List<User>userWithStatus(@RequestParam String status[]){
+    public List<User> userWithStatus(@RequestParam String status[]) {
         return userService.userWithStatus(status);
     }
+
     //update userRole
     @PutMapping("/request-user-role/{id}")
     public boolean editRequestUserRole(@PathVariable String id, @RequestBody User user) {
         return userService.editRequestUserRole(user, id);
     }
+
     @PutMapping("/user-role/{id}")
     public boolean editUserRole(@PathVariable String id, @RequestBody User user) {
         return userService.editUserRole(user, id);
