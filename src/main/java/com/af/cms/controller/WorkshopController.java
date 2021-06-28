@@ -37,9 +37,12 @@ public class WorkshopController {
 	
 	@PostMapping("/workshop")
 	 public ResponseEntity<?> requestWorkshop(@RequestBody Workshop workshop) throws IOException {
+
 		
       
     		Workshop respone = WorkshopService.saveWorkshop(workshop);
+
+		System.out.println("respone");
       
     		if(respone.equals(null)) {
     			return ResponseEntity.ok(new CommonResponse<Workshop>(false,null,respone));
