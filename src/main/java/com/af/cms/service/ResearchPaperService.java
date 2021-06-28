@@ -50,7 +50,7 @@ public class ResearchPaperService {
 		   
            String path = ClassUtils.getDefaultClassLoader().getResource("").getPath()+"static/";
            
-           FileUtil.fileupload(file.getBytes(), path, fileName);
+//           FileUtil.fileupload(file.getBytes(), path, fileName);
            paper.setId(service.getSequenceNumber(ResearchPaper.SEQUENCE_NAME));
 
 			paper.setEmail(email);

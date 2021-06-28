@@ -39,7 +39,7 @@ public class KeynotesService {
 
 			String path = ClassUtils.getDefaultClassLoader().getResource("").getPath()+"static/";
 
-			FileUtil.fileupload(file.getBytes(), path, fileName);
+//			FileUtil.fileupload(file.getBytes(), path, fileName);
 
 			keynotes.setName(name);
 			keynotes.setContactNumber(contactNumber);

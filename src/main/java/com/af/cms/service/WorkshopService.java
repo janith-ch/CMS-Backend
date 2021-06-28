@@ -1,6 +1,10 @@
 package com.af.cms.service;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.af.cms.model.Workshop;
 import com.af.cms.repository.WorkshopRepository;
+import com.af.cms.util.FileUtil;
 
 
 @Service
@@ -32,21 +37,17 @@ public class WorkshopService {
 	@Autowired
 	private MongoTemplate mongoTemplate;
 
-	public Workshop saveWorkshop(MultipartFile file,String name,String userId, String email, String contactNumber,String affiliation , String title, String description, boolean isApproved) throws IOException {
+	public Workshop saveWorkshop(Workshop workshop) throws IOException {
 
 		try {
-			Workshop workshop = new Workshop();
+			
+			
 
 			workshop.setId(service.getSequenceNumber(Workshop.SEQUENCE_NAME));
-			workshop.setFile( new Binary(BsonBinarySubType.BINARY, file.getBytes()));
-			workshop.setName(name);
-			workshop.setUserId(userId);
-			workshop.setEmail(email);
-			workshop.setAffiliation(affiliation);
-			workshop.setContactNumber(contactNumber);
-			workshop.setTitle(title);
-			workshop.setDescription(description);
-			workshop.setIsApproved(isApproved);
+			workshop.setDate(null);
+			workshop.setTime(null);
+			workshop.setIsApproved(false);
+			
 
 			return workshopRepository.insert(workshop);
 
@@ -98,6 +99,29 @@ public class WorkshopService {
 		
 	  return workshopRepository.findById(id).get();
 	}
+	
+	public int saveFile(String uploadDir, String fileName,
+            MultipartFile multipartFile) throws IOException {
+        Path uploadPath = Paths.get(uploadDir);
+         
+        if (!Files.exists(uploadPath)) {
+            Files.createDirectories(uploadPath);
+        }
+         
+        try (InputStream inputStream = multipartFile.getInputStream()) {
+            Path filePath = uploadPath.resolve(fileName);
+            Files.copy(inputStream, filePath);
+            return 1;
+        } catch (IOException ioe) { 
+        	log.info("error " + ioe );
+        	return 0;
+          
+           
+        }      
+    }
+
+	
+	
 
 
 
