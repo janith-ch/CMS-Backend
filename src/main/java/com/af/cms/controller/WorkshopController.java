@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import com.af.cms.dto.DateTime;
 import com.af.cms.model.Workshop;
 import com.af.cms.service.FileStorageService;
 import com.af.cms.service.WorkshopService;
@@ -64,27 +66,27 @@ public class WorkshopController {
 		
 	}
 	
-	@PutMapping("workshop/approve/{id}")
-	public ResponseEntity<?> updateIsApprovedStatus(@PathVariable int id){
-		
-		int result = WorkshopService.updateApprovedStatus(id);
-		
-		if(result == 1) {
-			return ResponseEntity.ok(new CommonResponse<Integer>(true,null,result));
-			
-		}else {
-			
-			return ResponseEntity.ok(new CommonResponse<Integer>(true,null,result));
-			
-		}
-			
-	}
-	
+//	@PutMapping("workshop/approve/{id}")
+//	public ResponseEntity<?> updateIsApprovedStatus(@PathVariable int id){
+//		
+//		int result = WorkshopService.updateApprovedStatus(id);
+//		
+//		if(result == 1) {
+//			return ResponseEntity.ok(new CommonResponse<Integer>(true,null,result));
+//			
+//		}else {
+//			
+//			return ResponseEntity.ok(new CommonResponse<Integer>(true,null,result));
+//			
+//		}
+//			
+//	}
+//	
 	
 	@GetMapping("/workshop/{id}")
 	public ResponseEntity<?> getWorkshopByID(@PathVariable int id){
 		
-		Workshop workshop = WorkshopService.getPdfByid(id);
+		Workshop workshop = WorkshopService.getWorkshopByid(id);
 		
 		return ResponseEntity.ok(new CommonResponse<Workshop>(true,null,workshop));
 		
@@ -157,7 +159,21 @@ public class WorkshopController {
 		}
 	 
 	 
-
+	 @PutMapping("workshop/approve/{id}")
+		public ResponseEntity<?> updateIsApprovedStatus(@PathVariable int id, @RequestBody DateTime dateTime){
+			
+			Workshop result = WorkshopService.approveResearchpaper(id,dateTime);
+			
+			if(result == null) {
+				return ResponseEntity.ok(new CommonResponse<Workshop>(false,null,result));
+				
+			}else {
+				
+				return ResponseEntity.ok(new CommonResponse<Workshop>(true,null,result));
+				
+			}
+				
+		}
 	
 	
 	

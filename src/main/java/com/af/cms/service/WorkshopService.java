@@ -22,6 +22,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.af.cms.dto.DateTime;
 import com.af.cms.model.Keynotes;
 import com.af.cms.model.Workshop;
 import com.af.cms.repository.WorkshopRepository;
@@ -72,6 +73,9 @@ public class WorkshopService {
 
 		return workshopRepository.findAll(); 
 	}
+	
+	
+	
 
 
 	public int deleteWorkshop(int id) {
@@ -87,9 +91,6 @@ public class WorkshopService {
 	}
 	
 	
-	
-
-
 	public int updateApprovedStatus(int id) {
 
 		try {
@@ -100,7 +101,7 @@ public class WorkshopService {
 			String email = workshop.getEmail();
 			log.info(email);
 			mongoTemplate.save(workshop,"workshop");
-			sendEmail(workshop, email);
+			
 			return 1;
 
 
@@ -111,7 +112,7 @@ public class WorkshopService {
 	}
 
 
-	public Workshop getPdfByid(int id) {
+	public Workshop getWorkshopByid(int id) {
 		
 	  return workshopRepository.findById(id).get();
 	}
@@ -183,6 +184,7 @@ public class WorkshopService {
 	               
 
 	                workshopRepository.save(workshop2);
+	               
 	                return workshop2;
 	            }
 	        } catch (Exception e) {
@@ -208,6 +210,46 @@ public class WorkshopService {
 		}
 		
 			}
+    
+    
+    
+    public Workshop approveResearchpaper(int id,DateTime dateTime) {
+    	
+    	
+    	 try {
+    		 
+    		 
+	            Optional<Workshop> workshop1 = workshopRepository.findById(id);
+	            if (workshop1 == null) {
+	                return null;
+	            } else {
+	                Workshop workshop2= workshop1.get();
+	                workshop2.setFirstName(workshop2.getFirstName());
+	                workshop2.setTitle(workshop2.getTitle());
+	                workshop2.setUserId(workshop2.getUserId());
+	                workshop2.setTime(dateTime.getTime());
+	                workshop2.setPassword(workshop2.getPassword());
+	                workshop2.setLastName(workshop2.getLastName());
+	                workshop2.setFileUrl(workshop2.getFileUrl());
+	                workshop2.setDescription(workshop2.getDescription());
+	                workshop2.setDate(dateTime.getDate());
+	                workshop2.setCountry(workshop2.getCountry());
+	                workshop2.setEmail(workshop2.getEmail());
+	                workshop2.setIsApproved(true);
+	              
+	                
+	                String email = workshop2.getEmail();
+
+	                workshopRepository.save(workshop2);
+	                sendEmail(workshop2, email);
+	                return workshop2;
+	            }
+	        } catch (Exception e) {
+	            throw new RuntimeException("error getting update workshop " + e);
+	        }
+    	
+    	
+    }
 
 
 
