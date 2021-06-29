@@ -13,12 +13,16 @@ import org.bson.types.Binary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.af.cms.model.Keynotes;
 import com.af.cms.model.Workshop;
 import com.af.cms.repository.WorkshopRepository;
 import com.af.cms.util.FileUtil;
@@ -36,6 +40,12 @@ public class WorkshopService {
 
 	@Autowired
 	private MongoTemplate mongoTemplate;
+	
+	@Autowired
+	private JavaMailSender javaMailSender;
+	
+	@Value("${email.username}")
+	private String sendFromEmail;
 
 	public Workshop saveWorkshop(Workshop workshop) throws IOException {
 
@@ -75,6 +85,9 @@ public class WorkshopService {
 		}
 
 	}
+	
+	
+	
 
 
 	public int updateApprovedStatus(int id) {
@@ -84,7 +97,10 @@ public class WorkshopService {
 
 			workshop = mongoTemplate.findOne(Query.query(Criteria.where("id").is(id)), Workshop.class);
 			workshop.setIsApproved(true);
+			String email = workshop.getEmail();
+			log.info(email);
 			mongoTemplate.save(workshop,"workshop");
+			sendEmail(workshop, email);
 			return 1;
 
 
@@ -121,7 +137,78 @@ public class WorkshopService {
     }
 
 	
+	public void sendEmail(Workshop workshop,String email) {
+		
+		String name = workshop.getLastName();
+		String date = workshop.getDate();
+		String time =  workshop.getTime();
+
+		SimpleMailMessage msg = new SimpleMailMessage();
+		msg.setTo(email);
+		msg.setFrom(sendFromEmail);
+
+		msg.setSubject("Email of Approval for workshop coordinator to conduct the Workshop at the ICAF 2021");
+		msg.setText( "Dear " + name + System.lineSeparator()+  System.lineSeparator()+   "We're sending you this email because you requested conduct to workshop in ICAF 2021,Our organization panel has "
+				+ "approved your workshop propsal."
+				+  System.lineSeparator()+" Date: " + date 
+				+  System.lineSeparator()+"Time: " + time 
+				+  System.lineSeparator()+"Venue: " + "SLIIT AUDITORIUM" 
+				+ System.lineSeparator()+  System.lineSeparator()+"Thank you");
+		javaMailSender.send(msg);
+
+	}
 	
+	
+	public Workshop updateWorkshop(Workshop workshop,int id) {
+
+		 try {
+	            Optional<Workshop> workshop1 = workshopRepository.findById(id);
+	            if (workshop1 == null) {
+	                return null;
+	            } else {
+	                Workshop workshop2= workshop1.get();
+	                workshop2.setFirstName(workshop.getFirstName());
+	                workshop2.setTitle(workshop.getTitle());
+	                workshop2.setUserId(workshop.getUserId());
+	                workshop2.setTime(workshop.getTime());
+	                workshop2.setPassword(workshop.getPassword());
+	                workshop2.setLastName(workshop.getLastName());
+	                workshop2.setFileUrl(workshop.getFileUrl());
+	                workshop2.setDescription(workshop.getDescription());
+	                workshop2.setDate(workshop.getDate());
+	                workshop2.setCountry(workshop.getCountry());
+	                workshop2.setEmail(workshop.getEmail());
+	               
+	                
+	               
+
+	                workshopRepository.save(workshop2);
+	                return workshop2;
+	            }
+	        } catch (Exception e) {
+	            throw new RuntimeException("error getting update workshop " + e);
+	        }
+	
+		
+	}
+	
+	
+	
+    public List<Workshop> getAllApprovedWorkshop(){
+		
+		try {
+
+			List<Workshop> list  = mongoTemplate.find(Query.query(Criteria.where("is_approved").is(true)), Workshop.class);
+			return list;
+
+
+		}catch (Exception e) {
+			log.info("error" + e);
+			return null;
+		}
+		
+			}
+
 
 
 

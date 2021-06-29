@@ -80,30 +80,13 @@ public class WorkshopController {
 			
 	}
 	
-//	@GetMapping("workshop/pdf/{id}")
-//	public ResponseEntity<?> getPdfFilebyId(@PathVariable int id, Model model){
-//		
-//		
-//		Workshop workshop = WorkshopService.getPdfByid(id);
-//		model.addAttribute("file", Base64.getEncoder().encodeToString(workshop.getFile().getData()));
-////		System.out.println("printbefore" + workshop.getFile());
-////		byte[] decodedBytes = java.util.Base64.getEncoder().encode(workshop.getFile().getData());
-////		System.out.println("print" + decodedBytes);
-//		return ResponseEntity.ok(new CommonResponse<String>(true,null,"Preview PDF..."));
-//		
-//		
-//		
-//	}
-//	
 	
 	@GetMapping("/workshop/{id}")
 	public ResponseEntity<?> getWorkshopByID(@PathVariable int id){
-		System.out.println("hi");
 		
 		Workshop workshop = WorkshopService.getPdfByid(id);
 		
 		return ResponseEntity.ok(new CommonResponse<Workshop>(true,null,workshop));
-		
 		
 		
 	}
@@ -146,6 +129,34 @@ public class WorkshopController {
 	                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
 	                .body(resource);
 	    }
+	 
+	 
+	 
+	 
+	 @PutMapping("workshop/update/{id}")
+		public  ResponseEntity<?> editWorkshop(@PathVariable Integer id, @RequestBody Workshop workshop) {
+
+			Workshop respone =  WorkshopService.updateWorkshop(workshop, id);
+
+			if(respone == null) {
+
+				return ResponseEntity.ok(new CommonResponse<Workshop>(false,null,respone));
+
+			}else {
+				return ResponseEntity.ok(new CommonResponse<Workshop>(true,null,respone));
+			}
+		}
+
+	 
+	 
+	 @GetMapping("/workshop/approvedList")
+		public  ResponseEntity<?> getApprovedList(){
+			
+			return ResponseEntity.ok(new CommonResponse<List<Workshop>>(true,null,WorkshopService.getAllApprovedWorkshop()));
+
+		}
+	 
+	 
 
 	
 	
