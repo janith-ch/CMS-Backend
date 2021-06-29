@@ -86,21 +86,6 @@ public class WorkshopController {
 			
 	}
 	
-//	@GetMapping("workshop/pdf/{id}")
-//	public ResponseEntity<?> getPdfFilebyId(@PathVariable int id, Model model){
-//		
-//		
-//		Workshop workshop = WorkshopService.getPdfByid(id);
-//		model.addAttribute("file", Base64.getEncoder().encodeToString(workshop.getFile().getData()));
-////		System.out.println("printbefore" + workshop.getFile());
-////		byte[] decodedBytes = java.util.Base64.getEncoder().encode(workshop.getFile().getData());
-////		System.out.println("print" + decodedBytes);
-//		return ResponseEntity.ok(new CommonResponse<String>(true,null,"Preview PDF..."));
-//		
-//		
-//		
-//	}
-//	
 	
 	@GetMapping("/workshop/{id}")
 	public ResponseEntity<?> getWorkshopByID(@PathVariable int id){

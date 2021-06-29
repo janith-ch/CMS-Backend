@@ -13,9 +13,12 @@ import org.bson.types.Binary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -36,6 +39,12 @@ public class WorkshopService {
 
 	@Autowired
 	private MongoTemplate mongoTemplate;
+	
+	@Autowired
+	private JavaMailSender javaMailSender;
+	
+	@Value("${email.username}")
+	private String sendFromEmail;
 
 	public Workshop saveWorkshop(Workshop workshop) throws IOException {
 
@@ -75,6 +84,9 @@ public class WorkshopService {
 		}
 
 	}
+	
+	
+	
 
 
 	public int updateApprovedStatus(int id) {
@@ -84,7 +96,10 @@ public class WorkshopService {
 
 			workshop = mongoTemplate.findOne(Query.query(Criteria.where("id").is(id)), Workshop.class);
 			workshop.setIsApproved(true);
+			String email = workshop.getEmail();
+			log.info(email);
 			mongoTemplate.save(workshop,"workshop");
+			sendEmail(workshop, email);
 			return 1;
 
 
@@ -121,7 +136,26 @@ public class WorkshopService {
     }
 
 	
-	
+	public void sendEmail(Workshop workshop,String email) {
+		
+		String name = workshop.getLastName();
+		String date = workshop.getDate();
+		String time =  workshop.getTime();
+
+		SimpleMailMessage msg = new SimpleMailMessage();
+		msg.setTo(email);
+		msg.setFrom(sendFromEmail);
+
+		msg.setSubject("Email of Approval for workshop coordinator to conduct the Workshop at the ICAF 2021");
+		msg.setText( "Dear " + name + System.lineSeparator()+  System.lineSeparator()+   "We're sending you this email because you requested conduct to workshop in ICAF 2021,Our organization panel have "
+				+ "approved your workshop propsal."
+				+ System.lineSeparator()+  System.lineSeparator()+" Date: " + date 
+				+ System.lineSeparator()+  System.lineSeparator()+"Time: " + time 
+				+ System.lineSeparator()+  System.lineSeparator()+"Venue: " + "SLIIT AUDITORIUM" );
+
+		javaMailSender.send(msg);
+
+	}
 
 
 
