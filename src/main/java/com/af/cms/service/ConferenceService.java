@@ -14,11 +14,7 @@ public class ConferenceService {
 	
 	private static final Logger log = LoggerFactory.getLogger(ConferenceService.class);
 
-	
-	@Autowired
-	private SequenceGeneratorService service;
 
-	
 	@Autowired
 	private ConferenceRepository conferenceRepository;
 	
@@ -27,8 +23,6 @@ public class ConferenceService {
 	public Conference saveConference(Conference conference) throws IOException {
 
 		try {
-			 
-			conference.setId(service.getSequenceNumber(Conference.SEQUENCE_NAME));
 			return conferenceRepository.insert(conference);
 
 		}catch (Exception e) {
@@ -44,7 +38,7 @@ public class ConferenceService {
 	}
 
 
-	public int deleteConference(int id) {
+	public int deleteConference(String id) {
 
 		try {
 			conferenceRepository.deleteById(id);
@@ -60,7 +54,7 @@ public class ConferenceService {
 	public int updateConference(Conference conference) {
 
 		try {
-			int id = conference.getId();
+			String id = conference.getId();
 			Iterable<Conference>  object  = conferenceRepository.findAllById(Collections.singleton(id));
 
 			if (object == null) {
@@ -77,7 +71,7 @@ public class ConferenceService {
 	}
 
 
-	public Conference getConferenceById(int id) {
+	public Conference getConferenceById(String id) {
 		
 	  return conferenceRepository.findById(id).get();
 	}

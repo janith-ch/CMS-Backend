@@ -7,6 +7,6 @@ import com.af.cms.model.Conference;
 
 
 @Repository
-public interface ConferenceRepository extends MongoRepository<Conference,Integer> {
+public interface ConferenceRepository extends MongoRepository<Conference,String> {
 
 }
