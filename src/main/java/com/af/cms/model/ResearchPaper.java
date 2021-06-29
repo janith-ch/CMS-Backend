@@ -33,7 +33,7 @@ public class ResearchPaper {
 		private String title;
 		@Field(name = "description")
 		private String description;
-		@Field(name = "isApproved")
+		@Field(name = "is_approved")
 		private Boolean isApproved;
 		@Field(name = "pdf_url")
 		private String fileurl;
