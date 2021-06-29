@@ -67,7 +67,7 @@ public class ResearchPaperController {
 	}
 	
 	@DeleteMapping("/researchPaper/{id}")
-	public ResponseEntity<?> deleteResearchPaperById(@PathVariable int id) {
+	public ResponseEntity<?> deleteResearchPaperById(@PathVariable String id) {
         int result = researchPaperService.deleteWorkshop(id);
         
         if(result == 1) {
@@ -79,8 +79,8 @@ public class ResearchPaperController {
 		
 	}
 	
-	@PutMapping("/researchPaper/approved/{id}")
-	public ResponseEntity<?> updateResearchPaperIsApprovedStatus(@PathVariable int id){
+	@PutMapping("/researchPaper/approve/{id}")
+	public ResponseEntity<?> updateResearchPaperIsApprovedStatus(@PathVariable String id){
 		
 		int result = researchPaperService.updateApprovedStatus(id);
 		
@@ -98,7 +98,7 @@ public class ResearchPaperController {
 	
 	
 	@GetMapping("/researchPaper/{id}")
-	public ResponseEntity<?> getByresearchPaperID(@PathVariable int id){
+	public ResponseEntity<?> getByresearchPaperID(@PathVariable String id){
 
 		
 		ResearchPaper researchPaper = researchPaperService.getPdfByid(id);
@@ -155,6 +155,26 @@ public class ResearchPaperController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
                 .body(resource);
     }
+	
+	@PutMapping("researchPaper/update/{id}")
+	public ResponseEntity<?> editWorkshop(@PathVariable String id, @RequestBody ResearchPaper researchPaper) {
 
+	 ResearchPaper respone = researchPaperService.updateResearchPaper(researchPaper, id);
+
+	 if(respone == null) {
+
+	 return ResponseEntity.ok(new CommonResponse<ResearchPaper>(false,null,respone));
+
+	 }else {
+	return ResponseEntity.ok(new CommonResponse<ResearchPaper>(true,null,respone));
+	}
+	 }
+
+	@GetMapping("/researchPaper/approvedList")
+	public ResponseEntity<?> getApprovedPaperList(){
+	return ResponseEntity.ok(new CommonResponse<List<ResearchPaper>>(true,null,researchPaperService.getAllApprovedResearchPapers()));
+
+	 }
+	
 
 }
