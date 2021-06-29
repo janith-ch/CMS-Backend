@@ -95,19 +95,6 @@ public class ResearchPaperController {
 			
 	}
 	
-	@GetMapping("/researchPaper/pdf/{id}")
-	public ResponseEntity<?> getResearchPaperPdfFilebyId(@PathVariable int id, Model model){
-		
-		
-		ResearchPaper researchPaper = researchPaperService.getPdfByid(id);
-
-		
-		String researchPdfUrl = researchPaper.getFileurl();
-		
-		return ResponseEntity.ok(new CommonResponse<String>(true,null,researchPdfUrl));
-		
-		
-	}
 	
 	
 	@GetMapping("/researchPaper/{id}")
