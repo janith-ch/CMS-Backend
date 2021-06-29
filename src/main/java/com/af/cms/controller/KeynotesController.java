@@ -110,7 +110,7 @@ public class KeynotesController {
 	}
 
 	@GetMapping("/keynote/list")
-	public  ResponseEntity<?> getDoctorlist(){
+	public  ResponseEntity<?> getAllKeynotes(){
 		
 		return ResponseEntity.ok(new CommonResponse<List<Keynotes>>(true,null,keynotesService.getAllKeynotes()));
 

@@ -89,7 +89,6 @@ public class WorkshopController {
 	
 	@GetMapping("/workshop/{id}")
 	public ResponseEntity<?> getWorkshopByID(@PathVariable int id){
-		System.out.println("hi");
 		
 		Workshop workshop = WorkshopService.getPdfByid(id);
 		
@@ -136,6 +135,34 @@ public class WorkshopController {
 	                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
 	                .body(resource);
 	    }
+	 
+	 
+	 
+	 
+	 @PutMapping("workshop/update/{id}")
+		public  ResponseEntity<?> editWorkshop(@PathVariable Integer id, @RequestBody Workshop workshop) {
+
+			Workshop respone =  WorkshopService.updateWorkshop(workshop, id);
+
+			if(respone == null) {
+
+				return ResponseEntity.ok(new CommonResponse<Workshop>(false,null,respone));
+
+			}else {
+				return ResponseEntity.ok(new CommonResponse<Workshop>(true,null,respone));
+			}
+		}
+
+	 
+	 
+	 @GetMapping("/workshop/approvedList")
+		public  ResponseEntity<?> getApprovedList(){
+			
+			return ResponseEntity.ok(new CommonResponse<List<Workshop>>(true,null,WorkshopService.getAllApprovedWorkshop()));
+
+		}
+	 
+	 
 
 	
 	

@@ -22,6 +22,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.af.cms.model.Keynotes;
 import com.af.cms.model.Workshop;
 import com.af.cms.repository.WorkshopRepository;
 import com.af.cms.util.FileUtil;
@@ -147,15 +148,67 @@ public class WorkshopService {
 		msg.setFrom(sendFromEmail);
 
 		msg.setSubject("Email of Approval for workshop coordinator to conduct the Workshop at the ICAF 2021");
-		msg.setText( "Dear " + name + System.lineSeparator()+  System.lineSeparator()+   "We're sending you this email because you requested conduct to workshop in ICAF 2021,Our organization panel have "
+		msg.setText( "Dear " + name + System.lineSeparator()+  System.lineSeparator()+   "We're sending you this email because you requested conduct to workshop in ICAF 2021,Our organization panel has "
 				+ "approved your workshop propsal."
-				+ System.lineSeparator()+  System.lineSeparator()+" Date: " + date 
-				+ System.lineSeparator()+  System.lineSeparator()+"Time: " + time 
-				+ System.lineSeparator()+  System.lineSeparator()+"Venue: " + "SLIIT AUDITORIUM" );
-
+				+  System.lineSeparator()+" Date: " + date 
+				+  System.lineSeparator()+"Time: " + time 
+				+  System.lineSeparator()+"Venue: " + "SLIIT AUDITORIUM" 
+				+ System.lineSeparator()+  System.lineSeparator()+"Thank you");
 		javaMailSender.send(msg);
 
 	}
+	
+	
+	public Workshop updateWorkshop(Workshop workshop,int id) {
+
+		 try {
+	            Optional<Workshop> workshop1 = workshopRepository.findById(id);
+	            if (workshop1 == null) {
+	                return null;
+	            } else {
+	                Workshop workshop2= workshop1.get();
+	                workshop2.setFirstName(workshop.getFirstName());
+	                workshop2.setTitle(workshop.getTitle());
+	                workshop2.setUserId(workshop.getUserId());
+	                workshop2.setTime(workshop.getTime());
+	                workshop2.setPassword(workshop.getPassword());
+	                workshop2.setLastName(workshop.getLastName());
+	                workshop2.setFileUrl(workshop.getFileUrl());
+	                workshop2.setDescription(workshop.getDescription());
+	                workshop2.setDate(workshop.getDate());
+	                workshop2.setCountry(workshop.getCountry());
+	                workshop2.setEmail(workshop.getEmail());
+	               
+	                
+	               
+
+	                workshopRepository.save(workshop2);
+	                return workshop2;
+	            }
+	        } catch (Exception e) {
+	            throw new RuntimeException("error getting update workshop " + e);
+	        }
+	
+		
+	}
+	
+	
+	
+    public List<Workshop> getAllApprovedWorkshop(){
+		
+		try {
+
+			List<Workshop> list  = mongoTemplate.find(Query.query(Criteria.where("is_approved").is(true)), Workshop.class);
+			return list;
+
+
+		}catch (Exception e) {
+			log.info("error" + e);
+			return null;
+		}
+		
+			}
+
 
 
 
