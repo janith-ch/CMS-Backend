@@ -113,10 +113,16 @@ public class WorkshopService {
 
 
 	public Workshop getWorkshopByid(int id) {
-		
-	  return workshopRepository.findById(id).get();
-	}
+	   Workshop workshop = new Workshop();
+	   try {
+		workshop	=  workshopRepository.findById(id).get();
+		return workshop;
 	
+	}catch (Exception e) {
+		log.info("error" + e);
+		return null;
+	}
+	}	
 	public int saveFile(String uploadDir, String fileName,
             MultipartFile multipartFile) throws IOException {
         Path uploadPath = Paths.get(uploadDir);
@@ -148,12 +154,14 @@ public class WorkshopService {
 		msg.setTo(email);
 		msg.setFrom(sendFromEmail);
 
-		msg.setSubject("Email of Approval for workshop coordinator to conduct the Workshop at the ICAF 2021");
-		msg.setText( "Dear " + name + System.lineSeparator()+  System.lineSeparator()+   "We're sending you this email because you requested conduct to workshop in ICAF 2021,Our organization panel has "
-				+ "approved your workshop propsal."
+		msg.setSubject("Email of Approval for Workshop coordinator to conduct the workshop at the ICAF 2021.");
+		msg.setText( "Dear " + name + System.lineSeparator()+  System.lineSeparator()+   "We are pleased to inform you that your Workshop Proposal, "
+				+ "How to deal with procrastination has approved for present at the ICAF 2021."
+				+ System.lineSeparator()+"I have mentioned the date, time and the venue below:"
 				+  System.lineSeparator()+" Date: " + date 
 				+  System.lineSeparator()+"Time: " + time 
 				+  System.lineSeparator()+"Venue: " + "SLIIT AUDITORIUM" 
+				+  System.lineSeparator()+  System.lineSeparator()+"visit ICAF Official Web Site for more details"
 				+ System.lineSeparator()+  System.lineSeparator()+"Thank you");
 		javaMailSender.send(msg);
 
@@ -164,7 +172,7 @@ public class WorkshopService {
 
 		 try {
 	            Optional<Workshop> workshop1 = workshopRepository.findById(id);
-	            if (workshop1 == null) {
+	            if (workshop1.equals(null) ) {
 	                return null;
 	            } else {
 	                Workshop workshop2= workshop1.get();
@@ -184,11 +192,12 @@ public class WorkshopService {
 	               
 
 	                workshopRepository.save(workshop2);
-	               
+	               System.out.println("eee" + workshop2 + "/n" + workshop);
 	                return workshop2;
 	            }
 	        } catch (Exception e) {
-	            throw new RuntimeException("error getting update workshop " + e);
+	        	log.info("error " + e);
+	            return null;
 	        }
 	
 		

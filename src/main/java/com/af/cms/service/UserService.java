@@ -2,10 +2,9 @@ package com.af.cms.service;
 
 import com.af.cms.dto.Authenticate;
 import com.af.cms.dto.Login;
-import com.af.cms.model.ResearchPaper;
 import com.af.cms.model.User;
 import com.af.cms.repository.UserRepository;
-import com.mongodb.lang.Nullable;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -136,7 +135,7 @@ public class UserService implements UserServiceInt {
 		}
 	}
 
-	public Authenticate authenticateUser(Login login) {
+	public User authenticateUser(Login login) {
 		
 		String username = login.getUsername();
 		String password = login.getPassword();
@@ -151,17 +150,15 @@ public class UserService implements UserServiceInt {
 			String key = user.getPassword(); 
 
 			if(email.equals(username) && password.equals(key)) {
-
-
-				authenticate.setUserRole(user.getUserRole());
-				authenticate.setEmail(user.getEmail());
-				authenticate.setMessage("valid credentials!!");
-				return authenticate;
+				
+				return user;
 			}else {
+				
+				User user1  = new User();
 				authenticate.setMessage("Invalid credentials!!");
 				authenticate.setUserRole(null);
 				authenticate.setEmail(null);
-				return authenticate;
+				return null;
 			}
 
 		}catch (Exception e) {
@@ -169,7 +166,7 @@ public class UserService implements UserServiceInt {
 			authenticate.setMessage("User not found !!");
 			authenticate.setUserRole(null);
 			authenticate.setEmail(null);
-			return authenticate;
+			return null;
 
 		}
 
