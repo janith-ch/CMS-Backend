@@ -1,8 +1,9 @@
 package com.af.cms.service;
-
-import com.af.cms.dto.Authenticate;
 import com.af.cms.dto.Login;
+import com.af.cms.dto.UserDetails;
+import com.af.cms.model.ResearchPaper;
 import com.af.cms.model.User;
+import com.af.cms.model.Workshop;
 import com.af.cms.repository.UserRepository;
 
 
@@ -135,13 +136,15 @@ public class UserService implements UserServiceInt {
 		}
 	}
 
-	public User authenticateUser(Login login) {
-		
+	public UserDetails authenticateUser(Login login) {
+
 		String username = login.getUsername();
 		String password = login.getPassword();
 
-		User user  = new User();
-		Authenticate  authenticate = new Authenticate();
+		UserDetails userDetails = new UserDetails();
+		User user = new User();
+		Workshop workshop = new Workshop();
+		ResearchPaper researchPaper = new ResearchPaper();
 		try {
 
 			user = mongoTemplate.findOne(Query.query(Criteria.where("email").is(username)), User.class);
@@ -151,28 +154,96 @@ public class UserService implements UserServiceInt {
 
 			if(email.equals(username) && password.equals(key)) {
 				
-				return user;
+				userDetails.setEmail(email);
+				userDetails.setPassword(password);
+				userDetails.setFirstName(user.getFirstName());
+				userDetails.setLastName(user.getLastName());
+				userDetails.setUserRole(user.getUserRole());
+				userDetails.setCountry(user.getCountry());
+				userDetails.setUserID(user.getId());
+
+				return userDetails;
 			}else {
+
 				
-				User user1  = new User();
-				authenticate.setMessage("Invalid credentials!!");
-				authenticate.setUserRole(null);
-				authenticate.setEmail(null);
 				return null;
 			}
 
 		}catch (Exception e) {
 
-			authenticate.setMessage("User not found !!");
-			authenticate.setUserRole(null);
-			authenticate.setEmail(null);
-			return null;
+			try {
+
+				workshop = mongoTemplate.findOne(Query.query(Criteria.where("email").is(username)), Workshop.class);
+
+				String email = workshop.getEmail(); 
+				String key = workshop.getPassword(); 
+
+				if(email.equals(username) && password.equals(key)) {
+					
+					Integer id = workshop.getId();
+					String StringId = id.toString(); 
+					
+					userDetails.setEmail(email);
+					userDetails.setPassword(password);
+					userDetails.setFirstName(workshop.getFirstName());
+					userDetails.setLastName(workshop.getLastName());
+					userDetails.setUserRole(workshop.getUserRole());
+					userDetails.setCountry(workshop.getCountry());
+					userDetails.setUserID(StringId);
+
+					return userDetails;
+				}else {
+
+				
+					return null;
+				}
+
+			}catch (Exception e2) {
+
+
+				try {
+
+					researchPaper = mongoTemplate.findOne(Query.query(Criteria.where("email").is(username)), ResearchPaper.class);
+
+					String email = researchPaper.getEmail(); 
+					String key = researchPaper.getPassword(); 
+					
+					
+					if(email.equals(username) && password.equals(key)) {
+						
+						
+						userDetails.setEmail(email);
+						userDetails.setPassword(password);
+						userDetails.setFirstName(researchPaper.getFirstName());
+						userDetails.setLastName(researchPaper.getLastName());
+						userDetails.setUserRole(researchPaper.getUserRole());
+						userDetails.setCountry(researchPaper.getCountry());
+						userDetails.setUserID(researchPaper.getId());
+						
+						return userDetails;
+					}else {
+
+						
+						return null;
+					}
+
+				}catch (Exception e3) {
+                   
+					return null;
+
+				}
+
+			}
 
 		}
 
-
-
-
-
 	}
+	
+	
+
+
+
+
+
+
 }

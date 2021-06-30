@@ -28,7 +28,7 @@ public class Workshop {
 	@Field(name = "country")
 	private String country;
 	@Field(name = "user_id")
-	private String userId;
+	private String userRole;
 	@Field(name = "email")
 	private String email;
 	@Field(name = "date")
@@ -49,7 +49,7 @@ public class Workshop {
 	@Override
 	public String toString() {
 		return "Workshop [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", password=" + password
-				+ ", speakerName="  + ", country=" + country + ", userId=" + userId + ", email=" + email
+				+ ", speakerName="  + ", country=" + country + ", userId=" + userRole + ", email=" + email
 				+ ", date=" + date + ", time=" + time + ", title=" + title + ", description=" + description + ", file="
 				+ fileUrl + ", isApproved=" + isApproved + "]";
 	}

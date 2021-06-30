@@ -114,7 +114,7 @@ public class ResearchPaperService {
 		return null;
 		} else {
 		ResearchPaper paper2= paper.get();
-		paper2.setUserType(researchPaper.getUserType());
+		paper2.setUserRole(researchPaper.getUserRole());
 		paper2.setTitle(paper2.getTitle());
 		paper2.setPassword(researchPaper.getPassword());
 		paper2.setLastName(researchPaper.getLastName());

@@ -23,10 +23,10 @@ public class ResearchPaper {
 		private String password;
 		@Field(name = "country")
 		private String country;
-		@Field(name = "author_email")
+		@Field(name = "email")
 		private String email;
 		@Field(name = "user_type")
-		private String userType;
+		private String userRole;
 		@Field(name = "affiliation")
 		private String affiliation ;
 		@Field(name = "research_title")
