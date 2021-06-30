@@ -1,22 +1,21 @@
 package com.af.cms.service;
-
-import java.io.IOException;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 
 import com.af.cms.model.ResearchPaper;
+import com.af.cms.model.Workshop;
 import com.af.cms.repository.ResearchPaperRepository;
 
 
@@ -30,6 +29,13 @@ public class ResearchPaperService {
 
 	@Autowired
 	private MongoTemplate mongoTemplate;
+	
+	@Autowired
+	private JavaMailSender javaMailSender;
+	
+	@Value("${email.username}")
+	private String sendFromEmail;
+
 
 	public ResearchPaper saveResearchPaper(ResearchPaper researchPaper) {
                    
@@ -72,7 +78,9 @@ public class ResearchPaperService {
 
 			paper = mongoTemplate.findOne(Query.query(Criteria.where("id").is(id)), ResearchPaper.class);
 			paper.setIsApproved(true);
+			String email = paper.getEmail();
 			mongoTemplate.save(paper,"ResearchPaper");
+			sendEmail(paper,email);
 			return 1;
 
 
@@ -83,9 +91,17 @@ public class ResearchPaperService {
 	}
 
 
-	public ResearchPaper getPdfByid(String id) {
+	public ResearchPaper getResearchPaperbyId(String id) {
 		
-	  return researchPaperRepository.findById(id).get();
+		try {
+			  
+		ResearchPaper paper= researchPaperRepository.findById(id).get();
+		
+		return paper;
+		
+		}catch (Exception e) {
+			return null;
+		}
 	}
 	
 	
@@ -99,23 +115,24 @@ public class ResearchPaperService {
 		} else {
 		ResearchPaper paper2= paper.get();
 		paper2.setUserType(researchPaper.getUserType());
-		paper2.setTitle(researchPaper.getTitle());
+		paper2.setTitle(paper2.getTitle());
 		paper2.setPassword(researchPaper.getPassword());
 		paper2.setLastName(researchPaper.getLastName());
-		paper2.setIsApproved(researchPaper.getIsApproved());
+		paper2.setIsApproved(paper2.getIsApproved());
 		paper2.setFirstName(researchPaper.getFirstName());
-		paper2.setFileurl(researchPaper.getFileurl());
+		paper2.setFileurl(paper2.getFileurl());
 		paper2.setEmail(researchPaper.getEmail());
-		paper2.setDescription(researchPaper.getDescription());
-		paper2.setCountry(researchPaper.getCountry());
-		paper2.setAffiliation(researchPaper.getAffiliation());
+		paper2.setDescription(paper2.getDescription());
+		paper2.setCountry(paper2.getCountry());
+		paper2.setAffiliation(paper2.getAffiliation());
 
 
 		 researchPaperRepository.save(paper2);
 		return paper2;
 		}
 		} catch (Exception e) {
-		throw new RuntimeException("error getting update workshops " + e);
+			log.info("Error" + e);
+			return null;
 		}
 		}
 
@@ -130,5 +147,22 @@ public class ResearchPaperService {
 		return null;
 		}
 		}
+	
+public void sendEmail(ResearchPaper researchPaper,String email) {
+		
+		String name = researchPaper.getLastName();
+
+
+		SimpleMailMessage msg = new SimpleMailMessage();
+		msg.setTo(email);
+		msg.setFrom(sendFromEmail);
+
+		msg.setSubject("Email of Approval for researcher to present the research paper at the ICAF 2021.");
+		msg.setText( "Dear " + name + System.lineSeparator()+  System.lineSeparator()+   "We are pleased to inform you that your research paper, “ How to deal with procrastination” has approved for present at the ICAF 2021."
+				+ " Please make sure to proceed the payment for the presentation." 
+				+ System.lineSeparator()+  System.lineSeparator()+"Thank you !");
+		javaMailSender.send(msg);
+
+	}
 
 }

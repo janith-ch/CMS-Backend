@@ -101,7 +101,7 @@ public class ResearchPaperController {
 	public ResponseEntity<?> getByresearchPaperID(@PathVariable String id){
 
 		
-		ResearchPaper researchPaper = researchPaperService.getPdfByid(id);
+		ResearchPaper researchPaper = researchPaperService.getResearchPaperbyId(id);
 		
 		return ResponseEntity.ok(new CommonResponse<ResearchPaper>(true,null,researchPaper));
 		
