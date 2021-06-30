@@ -36,10 +36,7 @@ public class KeynotesService {
 
 
 		try {
-			
-			keynotes.setId(generatorService.getSequenceNumber(Keynotes.SEQUENCE_NAME));
-			
-			log.info("object" + keynotes);
+
 			
 			return keynotesRepository.insert(keynotes);
 
@@ -59,7 +56,7 @@ public class KeynotesService {
 	}
 	
 	
-	public Keynotes updateKeynotes(Keynotes keynotes, int id) {
+	public Keynotes updateKeynotes(Keynotes keynotes, String id) {
 		
 		 try {
 	            Optional<Keynotes> keynote = keynotesRepository.findById(id);
@@ -69,13 +66,9 @@ public class KeynotesService {
 	              Keynotes keynote1= keynote.get();
 	                keynote1.setName(keynotes.getName());
 	                keynote1.setImageUrl(keynotes.getImageUrl());
-	                keynote1.setImageName(keynotes.getImageName());
 	                keynote1.setEmail(keynotes.getEmail());
 	                keynote1.setAffiliation(keynotes.getAffiliation());
 	                keynote1.setBio(keynotes.getBio());
-	                keynote1.setConferenceId(keynotes.getConferenceId());
-	                
-	               
 
 	                keynotesRepository.save(keynote1);
 	                return keynote1;
@@ -104,7 +97,7 @@ public class KeynotesService {
 			}
 	
 	
-	public int keynotedeleteById(int id) {
+	public int keynotedeleteById(String id) {
 		
 		try {
 			keynotesRepository.deleteById(id);
@@ -123,7 +116,7 @@ public class KeynotesService {
 	}
 	
 	
-	public Optional<Keynotes> getkeynoteById(Integer id) {
+	public Optional<Keynotes> getkeynoteById(String id) {
 		
 		return keynotesRepository.findById(id);
 	}

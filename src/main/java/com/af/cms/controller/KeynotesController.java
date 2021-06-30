@@ -8,14 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import com.af.cms.model.Keynotes;
 import com.af.cms.respone.CommonResponse;
@@ -24,6 +17,7 @@ import com.af.cms.service.KeynotesService;
 
 
 @RestController
+@CrossOrigin
 public class KeynotesController {
 
 	private static final Logger log = LoggerFactory.getLogger(KeynotesController.class);
@@ -70,7 +64,7 @@ public class KeynotesController {
 	}
 
 	@DeleteMapping("/keynote/delete/{id}")
-	public ResponseEntity<?> deletekeynoteById(@PathVariable Integer id) {
+	public ResponseEntity<?> deletekeynoteById(@PathVariable String id) {
 		int result = keynotesService.keynotedeleteById(id);
 
 		if(result == 1) {
@@ -96,7 +90,7 @@ public class KeynotesController {
 
 
 	@PutMapping("keynote/update/{id}")
-	public  ResponseEntity<?> editKeynotesByID(@PathVariable Integer id, @RequestBody Keynotes keynotes) {
+	public  ResponseEntity<?> editKeynotesByID(@PathVariable String id, @RequestBody Keynotes keynotes) {
 
 		Keynotes respone =  keynotesService.updateKeynotes(keynotes, id);
 
@@ -118,7 +112,7 @@ public class KeynotesController {
 	
 	
 	@GetMapping("/keynote/id/{id}")
-	public Optional<Keynotes> getkeynotesById(@PathVariable Integer id) {
+	public Optional<Keynotes> getkeynotesById(@PathVariable String id) {
 
 		try {
 			return keynotesService.getkeynoteById(id);
