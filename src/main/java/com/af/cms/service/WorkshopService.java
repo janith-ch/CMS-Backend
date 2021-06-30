@@ -169,13 +169,13 @@ public class WorkshopService {
 	            } else {
 	                Workshop workshop2= workshop1.get();
 	                workshop2.setFirstName(workshop.getFirstName());
-	                workshop2.setTitle(workshop.getTitle());
-	                workshop2.setUserId(workshop.getUserId());
+	                workshop2.setTitle(workshop2.getTitle());
+	                workshop2.setUserId(workshop2.getUserId());
 	                workshop2.setTime(workshop.getTime());
 	                workshop2.setPassword(workshop.getPassword());
 	                workshop2.setLastName(workshop.getLastName());
-	                workshop2.setFileUrl(workshop.getFileUrl());
-	                workshop2.setDescription(workshop.getDescription());
+	                workshop2.setFileUrl(workshop2.getFileUrl());
+	                workshop2.setDescription(workshop2.getDescription());
 	                workshop2.setDate(workshop.getDate());
 	                workshop2.setCountry(workshop.getCountry());
 	                workshop2.setEmail(workshop.getEmail());

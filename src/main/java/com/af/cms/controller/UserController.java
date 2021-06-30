@@ -1,5 +1,7 @@
 package com.af.cms.controller;
 
+import com.af.cms.dto.Authenticate;
+import com.af.cms.dto.Login;
 import com.af.cms.model.User;
 import com.af.cms.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +64,13 @@ public class UserController {
     @PutMapping("/user-role/{id}")
     public boolean editUserRole(@PathVariable String id, @RequestBody User user) {
         return userService.editUserRole(user, id);
+    }
+    
+    @PostMapping("/signin")
+    public Authenticate userLogin(@RequestBody Login login) {
+    	
+    	return userService.authenticateUser(login);
+    	
     }
 
 }
