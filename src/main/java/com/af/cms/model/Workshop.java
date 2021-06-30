@@ -27,7 +27,7 @@ public class Workshop {
 	private String password;
 	@Field(name = "country")
 	private String country;
-	@Field(name = "user_id")
+	@Field(name = "user_role")
 	private String userRole;
 	@Field(name = "email")
 	private String email;
@@ -53,7 +53,7 @@ public class Workshop {
 				+ ", date=" + date + ", time=" + time + ", title=" + title + ", description=" + description + ", file="
 				+ fileUrl + ", isApproved=" + isApproved + "]";
 	}
-	
+
 	
 	
 	
