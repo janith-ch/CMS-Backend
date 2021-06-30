@@ -1,8 +1,9 @@
 package com.af.cms.controller;
 
-import com.af.cms.dto.Authenticate;
+
 import com.af.cms.dto.Login;
-import com.af.cms.model.Conference;
+import com.af.cms.dto.UserDetails;
+
 import com.af.cms.model.User;
 import com.af.cms.respone.CommonResponse;
 import com.af.cms.service.UserService;
@@ -74,13 +75,13 @@ public class UserController {
 
 		try {
 
-			User user = userService.authenticateUser(login);
+			UserDetails object = userService.authenticateUser(login);
 
-			return ResponseEntity.ok(new CommonResponse<User>(true,null,user));
+			return ResponseEntity.ok(new CommonResponse<Object>(true,null,object));
 
 
 		}catch (Exception e) {
-			return ResponseEntity.ok(new CommonResponse<User>(false,null,null));
+			return ResponseEntity.ok(new CommonResponse<Object>(false,null,null));
 		}
 
 	}

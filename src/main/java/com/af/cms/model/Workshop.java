@@ -46,14 +46,14 @@ public class Workshop {
 	
 	
 	
-//	@Override
-//	public String toString() {
-//		return "Workshop [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", password=" + password
-//				+ ", speakerName="  + ", country=" + country + ", userId=" + userId + ", email=" + email
-//				+ ", date=" + date + ", time=" + time + ", title=" + title + ", description=" + description + ", file="
-//				+ fileUrl + ", isApproved=" + isApproved + "]";
-//	}
-	
+	@Override
+	public String toString() {
+		return "Workshop [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", password=" + password
+				+ ", speakerName="  + ", country=" + country + ", userId=" + userRole + ", email=" + email
+				+ ", date=" + date + ", time=" + time + ", title=" + title + ", description=" + description + ", file="
+				+ fileUrl + ", isApproved=" + isApproved + "]";
+	}
+
 	
 	
 	
