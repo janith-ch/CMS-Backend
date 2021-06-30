@@ -177,8 +177,8 @@ public class WorkshopService {
 	            } else {
 	                Workshop workshop2= workshop1.get();
 	                workshop2.setFirstName(workshop.getFirstName());
-	                workshop2.setTitle(workshop2.getTitle());
-	                workshop2.setUserId(workshop2.getUserId());
+	                workshop2.setTitle(workshop.getTitle());
+	                workshop2.setUserRole(workshop2.getUserRole());
 	                workshop2.setTime(workshop.getTime());
 	                workshop2.setPassword(workshop.getPassword());
 	                workshop2.setLastName(workshop.getLastName());
