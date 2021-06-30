@@ -10,17 +10,10 @@ import lombok.Data;
 @Data
 @Document(collection = "keynotes")
 public class Keynotes {
-	
-	
-	 @Transient
-	 public static final String SEQUENCE_NAME = "keynotes";
-	
+
 	 
 		@Id
-		@Indexed(unique = true)
-		private int id;
-		@Field(name = "conference_id")
-		private int conferenceId;
+		private String id;
 		@Field(name = "name")
 		private String name ;
 		@Field(name = "affiliation")
@@ -31,8 +24,6 @@ public class Keynotes {
 		private String bio;
 		@Field(name = "image_url")
 		private String imageUrl;
-		@Field(name = "imageName")
-		private String  imageName;
 
 			
 		

@@ -235,7 +235,7 @@ public class WorkshopService {
 	                Workshop workshop2= workshop1.get();
 	                workshop2.setFirstName(workshop2.getFirstName());
 	                workshop2.setTitle(workshop2.getTitle());
-	                workshop2.setUserId(workshop2.getUserId());
+	                workshop2.setUserRole(workshop2.getUserRole());
 	                workshop2.setTime(dateTime.getTime());
 	                workshop2.setPassword(workshop2.getPassword());
 	                workshop2.setLastName(workshop2.getLastName());
